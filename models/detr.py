@@ -67,7 +67,7 @@ class DETR(nn.Module):
         features, pos = self.backbone(samples)  # 获取主干网输出的feature map以及对应的pos embed
         src, mask = features[-1].decompose()
         assert mask is not None
-        # transformer模块,一般来说回返回decoder中层数数量的target,其shape为[decoder_layer_num,batch_size,100,256],
+        # transformer模块,返回target,其shape为[batch_size,100,256],
         # 其中100是transform中定义的target的queue长度,256则是输入图像的channel szie
         # 开始做transformer之前先将boneNet传出的图像特征送入1x1卷积成和pos一样的channel
         hs = self.transformer(self.input_proj(src), mask, self.query_embed.weight, pos[-1])[0]
